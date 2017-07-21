@@ -1,15 +1,21 @@
 <html ng-app="app">
 <head>
 <script src="Lib/angular.min.js"></script>
+<script src="Lib/angular-resource.min.js"></script>
+<script src="Lib/angular-route.min.js"></script>
 <script src="App/app.js"></script>
 <link rel='stylesheet' href='bootstrap/css/bootstrap.min.css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 </head>
-<main ng-controller="AppController">
-<div class="jumbotron">
-	<button class="btn" ng-click="getData()">Get Data</button>
-	<p>Temperature: {{ temperature }}</p>
-	<p>Humidity: {{ humidity }}</p>
-</div>
-</main>
+
+<header>
+	<nav class="navbar navbar-default">
+		<div class="navbar-header">
+		<a class="navbar-brand" href="#!TempHum">Temperature&Humidity</a>
+		<a class="navbar-brand" href="#!Gas">Gas</a>		
+		</div>
+	</nav>
+</header>
+<div ng-view></div>	
 </html>

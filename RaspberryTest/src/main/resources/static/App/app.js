@@ -1,16 +1,30 @@
 (function(){
 	'use strict'
-	var app = angular.module('app', []);
-	app.controller('AppController', function($scope, $http) {
+	var app = angular.module('app', ['ngRoute', 'ngResource']);
+	
+	app.config(function($routeProvider){
+		$routeProvider.when('/TempHum',{
+			templateUrl: 'templates/TemperatureHumidity.html',
+			controller: 'TempHumController'
+		})
+		.when('/Gas',{
+			templateUrl: 'templates/Gas.html',
+			controller: 'gasController'
+		})
+	})
+	
+	
+	app.controller('TempHumController', function($scope, $http) {
 		$scope.getData = function(){
-			$http.get('/temperature')
+			$http.get('/tempHum')
 			.then(function(response){
-				$scope.temperature = response.data;
-			});
-			$http.get('/humidity')
-			.then(function(response){
-				$scope.humidity = response.data;
-			});					
+				$scope.temperature = response.data.Temperature;
+				$scope.humidity = response.data.Humidity;
+			});				
 		}		
-	});		
+	});
+	
+	app.controller('gasController', function($scope) {
+
+	});
 })();
