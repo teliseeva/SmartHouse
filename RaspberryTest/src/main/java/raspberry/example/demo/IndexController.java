@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
 	@Autowired
-	DHT11Manager sensor;
+	DHT11Driver sensor;
+	
+	@Autowired
+	private TemHumSensor temHumSensor;
 
 	@RequestMapping("/tempHum")
 
 	public TemHumSensor GetTemperature() {
-		 TemHumSensor data = sensor.getTemHum();
+		 TemHumSensor data = sensor.getTemHum(temHumSensor);
 		 return data;
 	 }
 }

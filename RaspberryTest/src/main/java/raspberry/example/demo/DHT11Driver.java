@@ -7,15 +7,12 @@ import com.pi4j.wiringpi.Gpio;
 import com.pi4j.wiringpi.GpioUtil;
 
 @Service
-public class DHT11Manager {
+public class DHT11Driver {
 	
-	@Value("${dht11.pin}")
-	private int pin;
-
 	private static final int MAXTIMINGS = 85;
 	private final int[] dht11_dat = { 0, 0, 0, 0, 0 };
 
-	public DHT11Manager() {
+	public DHT11Driver() {
 
 		// setup wiringPi
 		if (Gpio.wiringPiSetup() == -1) {
@@ -26,18 +23,16 @@ public class DHT11Manager {
 		GpioUtil.export(3, GpioUtil.DIRECTION_OUT);
 	}
 
-	public TemHumSensor getTemHum() {
-
+	public TemHumSensor getTemHum(TemHumSensor sensor) {
 		for (int i = 0; i < 100; i++) {
-			float[] th = getTemperature(pin);
+			float[] th = getTemperature(sensor.getPin());
 			if (th != null) {
-				TemHumSensor sensor = new TemHumSensor();
 				sensor.setHumidity(th[0]);
 				sensor.setTemperature(th[1]);
 				return sensor;
 			}
 		}
-		return new TemHumSensor();
+		return sensor;
 	}
 
 	private float[] getTemperature(final int pin) {
