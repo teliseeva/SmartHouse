@@ -9,7 +9,7 @@ import com.pi4j.wiringpi.GpioUtil;
 @Service
 public class DHT11Manager {
 	
-	@Value("{dht11.pin}")
+	@Value("${dht11.pin}")
 	private int pin;
 
 	private static final int MAXTIMINGS = 85;
