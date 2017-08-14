@@ -18,8 +18,8 @@
 		$scope.getData = function(){
 			$http.get('/tempHum')
 			.then(function(response){
-				$scope.temperature = response.data.Temperature;
-				$scope.humidity = response.data.Humidity;
+				$scope.temperature = response.data.temperature;
+				$scope.humidity = response.data.humidity;
 			});				
 		}		
 	});
