@@ -1,7 +1,10 @@
 package raspberry.example.demo;
+import org.springframework.stereotype.Service;
+
 import com.pi4j.wiringpi.Gpio;
 import com.pi4j.wiringpi.GpioUtil;
 
+@Service
 public class DHT11Manager {
 	    private static final int    MAXTIMINGS  = 85;
 	    private final int[]         dht11_dat   = { 0, 0, 0, 0, 0 };
@@ -16,9 +19,23 @@ public class DHT11Manager {
 
 	        GpioUtil.export(3, GpioUtil.DIRECTION_OUT);
 	    }
+	    
+	    public TemHumSensor getTemHum() {
+	    	
+	    	for(int i = 0; i < 100; i++) {
+	    		float[] th = getTemperature(14);
+				if(th != null) {
+					TemHumSensor sensor = new TemHumSensor();
+	    			sensor.setHumidity(th[0]);
+	    			sensor.setTemperature(th[1]);
+	    			return sensor;
+	    		}
+	    	}
+	    	return new TemHumSensor();
+	    }
 
-	    public TemHumSensor getTemperature(final int pin) {
-	    	TemHumSensor sensor = new TemHumSensor();
+	    private float[] getTemperature(final int pin) {
+	    	
 	        int laststate = Gpio.HIGH;
 	        int j = 0;
 	        dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
@@ -70,13 +87,11 @@ public class DHT11Manager {
 	            if ((dht11_dat[2] & 0x80) != 0) {
 	                c = -c;
 	            }
-	            sensor.Humidity = h;
-	            sensor.Temperature = c;
-	        } else {
-	        	sensor.Humidity = -1;
-	            sensor.Temperature = -1;
+	            float[] res = new float[2];
+	            res[0] = h;
+	            res[1] = c;
 	        }
-	        return sensor;
+	        return null;
 	    }
 
 	    private boolean checkParity() {
